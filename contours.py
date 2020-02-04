@@ -28,7 +28,7 @@ def setup_camera():
 
 #Define the saturated colors function 
 def get_saturated_colors(image):
-  hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
+  hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV) #This converts a BGR format to an HSV format 
   #Mask for vivid colors
   cnts = cv2.findContours(masked.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
   contours = imutils.grab_contours(cnts)

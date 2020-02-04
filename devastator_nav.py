@@ -11,7 +11,7 @@ for raw in camera.capture_continuous(capture_buffer, format="bgr"):
   image = raw.array
   masked, contours, found_color = get_saturated_colors(image)
   print(f"Color {found_color}, h value: {found_color[0]}")
-  if 5 < found_color[0] < 40:
+  if 5 < found_color[0] < 40: #It looks at the first element of the found_color variable.
     print("yellow")
     devastator_robot.left()
   elif 100 < found_color[0] < 135:

@@ -16,6 +16,10 @@ After everything was set up I connected a monitor and bluetooth keyboard/mouse c
 
 If you are running this with any other hardware, make sure you adjust accordingly. Example, if you use an L298N as opposed to the motor controller from CamJam Edukit 3, make sure you change the import to `from gpiozero import Robot` and then set the Robot equal to `Robot(left=(pin1, pin2), right=(pin3, pin4))` where pin1 through pin4 are the pin numbers you choose. Also if you prefer to use another Pi make sure to give it proper power. If you plan to use a UBEC, be sure to connect things properly otherwise it will not work. 
 
+### Using an Intel NCS2 with the robot
+
+Since this uses OpenCV adding an Neural Compute Stick 2 is perfect to expand on its capabilities. Follow this guide I found on PyImageSearch website to install openvino. https://www.pyimagesearch.com/2019/04/08/openvino-opencv-and-movidius-ncs-on-the-raspberry-pi/ . Also, using the openvino toolkit with the NCS2 is great as you can use the caffe model, for example to do object detection for the robot and have it move based on what it sees. For example, I can have it move left if it sees a cat, or right when it sees a dog. This is expandable even to other models like Tensorflow and ONNX. However, I recommend using a Pi 3 or 3B+ as they have more USB ports for future expansion, a faster CPU. 
+
 ### Acknowledgements
 
 * Danny Staple, whose articles were very helpful. You can go to https://orionrobots.co.uk/ for more information on his projects.

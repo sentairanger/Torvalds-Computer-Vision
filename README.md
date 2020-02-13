@@ -18,7 +18,7 @@ If you are running this with any other hardware, make sure you adjust accordingl
 
 ### Using an Intel NCS2 with the robot
 
-Since this uses OpenCV adding an Neural Compute Stick 2 is perfect to expand on its capabilities. Follow this guide I found on PyImageSearch website to install openvino. https://www.pyimagesearch.com/2019/04/08/openvino-opencv-and-movidius-ncs-on-the-raspberry-pi/ . Also, using the openvino toolkit with the NCS2 is great as you can use the caffe model, for example to do object detection for the robot and have it move based on what it sees. For example, I can have it move left if it sees a cat, or right when it sees a dog. This is expandable even to other models like Tensorflow and ONNX. However, I recommend using a Pi 3 or 3B+ as they have more USB ports for future expansion, a faster CPU. 
+Since this uses OpenCV adding an Neural Compute Stick 2 is perfect to expand on its capabilities. Follow this guide I found on PyImageSearch website to install openvino. https://www.pyimagesearch.com/2019/04/08/openvino-opencv-and-movidius-ncs-on-the-raspberry-pi/ . Also, using the openvino toolkit with the NCS2 is great as you can use the caffe model, for example to do object detection for the robot and have it move based on what it sees. For example, I can have it move left if it sees a cat, or right when it sees a dog. This is expandable even to other models like Tensorflow and ONNX. However, I recommend using a Pi 3 or 3B+ as they have more USB ports for future expansion, a faster CPU which means openvino will compile much faster than a Zero or Zero W. You will need to provide more power but you can get away with using a UBEC.
 
 ### Acknowledgements
 

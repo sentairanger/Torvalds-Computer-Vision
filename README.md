@@ -12,7 +12,12 @@ To get things started I had my Raspberry Pi Robot which uses the Devastator Tank
 
 Note: the Pi Camera must be enabled using `sudo raspi-config` or the Raspberry Pi Configuration menu. After everything was set up I connected a monitor and bluetooth keyboard/mouse controller to get the code running. Every time I ran any code I had to invoke the `export LD_PRELOAD=/usr/lib/arm-linux_gnueabihf/libatomic.so` variable because otherwise it would not run. Now if you compiled OpenCV this would not be needed. Also note that if you are going to install the headless version of OpenCV make sure you only install it on CLI environment not a GUI one. I did that and it kept giving me issues until I uninstalled and replaced it with the correct version. So here is what each piece of code does and how to run it. I will add more to this as time goes by:
 
-* `contours.py` takes three images of what it sees and outputs them as `with-contours.jpg`, `masked.jpg` and `original.jpg`. The masked image is in black and white and masks the color that it sees. The contours image is the image that draws a green line on the color itself.
+* `contours.py` takes three images of what it sees and outputs them as `with-contours.jpg`, `masked.jpg` and `original.jpg`. The masked image is in black and white and masks the color that it sees. The contours image is the image that draws a green line on the color itself. The `contours_big.jpg` and `masked_big.jpg` images are examples you can reference. To run it, type `python3 contours.py` or `python contours.py ` if you are running a virtual environment. If you did not compile OpenCV and you used Danny Staple's instructions from the link provided please export the LD_PRELOAD variable first.
+
+* `devastator_nav.py` import the `get_saturated_colors` and the `camera_setup` functions to set things up. The robot takes constant images to see what color it gets from the `found_color` variable and if it sees yellow, the robot turns left. If it sees blue, it turns right. Otherwise, it just keeps moving forward. To run it, type `python3 devastator_nav.py` or `python devastator_nav.py` if you are using a virtual environment. Also, make sure your floor is of a neutral color and that you have white walls for a background for it to work effectively. Also, good lighting helps.
+
+* `devastator_detection.py` and `devastator_detection_triple.py` are similar, except the latter uses red from the color wheel. To run either, follow the same instructions as with the `devastator_nav.py` code. What happens with the first code is that when it sees yellow it turns left and when it sees blue it turns right. This is just like the previous code I mentioned. However, if it doesn't see either, it does not move. So consider this a color detection robot. To run this experiment I used red, blue and yellow foam balls attached to dowels to get the robot to see the color. In the second code, when it sees red it moves forward. I reference the color wheel to find the ranges of red.
+
 
 ### Video Demo
 
@@ -22,7 +27,17 @@ I added a video demo to the repo, but you will have to click on it to see it due
 If you are running this with any other hardware, make sure you adjust accordingly. Example, if you use an L298N as opposed to the motor controller from CamJam Edukit 3, make sure you change the import to `from gpiozero import Robot` and then set the Robot equal to `Robot(left=(pin1, pin2), right=(pin3, pin4))` where pin1 through pin4 are the pin numbers you choose. Also if you prefer to use another Pi make sure to give it proper power. If you plan to use a UBEC, be sure to connect things properly otherwise it will not work. 
 
 ### Expanding to other colors
-This project can be upscaled to add other colors and can invoke any commands with those colors. For example, adding green would allow the robot to turn a servo motor left or adding orange would have the robot spinning left for two seconds, and right for two seconds. Any color can be used within the color wheel as long as the ranges are correct. 
+Let me give you an example on how to modify the code to use other colors besides red, blue and yellow. Let's say I want to add green and I want the robot to move right and then left. I would add these lines after line 22 of `devastator_detection_triple.py`. 
+
+```python
+elif 90 < found_color[0] < 150:
+    print("green")
+    devastator_robot.right()
+    sleep(1)
+    devastator_robot.left()
+    sleep(1)
+```
+This can also be done in `devastator_nav.py` and `devastator_detection.py`. To explain, `found_color[0]` picks the first part of the array, since OpenCV formats colors in BGR format. A distance sensor can also be added to the robot to make it into an obstacle avoidance robot, but this time avoiding certain colors. 
 
 ### Using an Intel NCS2 with the robot
 

@@ -14,6 +14,10 @@ Note: the Pi Camera must be enabled using `sudo raspi-config` or the Raspberry P
 
 * `contours.py` takes three images of what it sees and outputs them as `with-contours.jpg`, `masked.jpg` and `original.jpg`. The masked image is in black and white and masks the color that it sees. The contours image is the image that draws a green line on the color itself. The `contours_big.jpg` and `masked_big.jpg` images are examples you can reference. To run it, type `python3 contours.py` or `python contours.py ` if you are running a virtual environment. If you did not compile OpenCV and you used Danny Staple's instructions from the link provided please export the LD_PRELOAD variable first.
 
+![Masked photo](https://github.com/sentairanger/Torvalds-Computer-Vision/blob/master/masked_big.png)
+
+![Contour photo](https://github.com/sentairanger/Torvalds-Computer-Vision/blob/master/contours_big.png)
+
 * `devastator_nav.py` import the `get_saturated_colors` and the `camera_setup` functions to set things up. The robot takes constant images to see what color it gets from the `found_color` variable and if it sees yellow, the robot turns left. If it sees blue, it turns right. Otherwise, it just keeps moving forward. To run it, type `python3 devastator_nav.py` or `python devastator_nav.py` if you are using a virtual environment. Also, make sure your floor is of a neutral color and that you have white walls for a background for it to work effectively. Also, good lighting helps.
 
 * `devastator_detection.py` and `devastator_detection_triple.py` are similar, except the latter uses red from the color wheel. To run either, follow the same instructions as with the `devastator_nav.py` code. What happens with the first code is that when it sees yellow it turns left and when it sees blue it turns right. This is just like the previous code I mentioned. However, if it doesn't see either, it does not move. So consider this a color detection robot. To run this experiment I used red, blue and yellow foam balls attached to dowels to get the robot to see the color. In the second code, when it sees red it moves forward. I reference the color wheel to find the ranges of red.
@@ -44,6 +48,15 @@ This can also be done in `devastator_nav.py` and `devastator_detection.py`. To e
 Since this uses OpenCV adding an Neural Compute Stick 2 is perfect to expand on its capabilities. Follow this guide I found on PyImageSearch website to install openvino. https://www.pyimagesearch.com/2019/04/08/openvino-opencv-and-movidius-ncs-on-the-raspberry-pi/ . Also, using the openvino toolkit with the NCS2 is great as you can use the caffe model, for example to do object detection for the robot and have it move based on what it sees. For example, I can have it move left if it sees a cat, or right when it sees a dog. This is expandable even to other models like Tensorflow and ONNX. These options are helpful if you want to set up your own security robot at home. However, I recommend using a Pi 3 or 3B+ as they have more USB ports for future expansion, a faster CPU which means openvino will compile much faster than a Zero or Zero W. You will need to provide more power but you can get away with using a UBEC. 
 
 Update: I got the NCS2 running with my robot and now I can talk about how I got it to work. The program uses MobileNet SSD and Caffe for object detection. And through several classes, if it sees the person class, the robot moves forward. However, this will be improved as object detection is very sensitive here and did cause my robot to stop and go and stop and go. So there will be improvements to add better accuracy. To run the code you must type the following `$ python openvino_real_time_object_detection_robot.py --prototxt MobileNetSSD_deploy.prototxt --model MobileNetSSD_deploy.caffemodel`. If you are not in a virtual environment change python to python3. This can be modified to have the robot move left if it sees a cat and right if it sees a chair. However, sensitivity settings have to be made to ensure success. 
+
+Here's a rundown of the arguments that must be run for it to work:
+
+* `--prototxt`: This is the prototext that must be used with the program. In this case I'm using the `MobileNetSSD_deploy.prototxt'.
+* `--model`: This the model that is required. In this case, I'm using the `MobileNetSSD_deploy.caffemodel` model.
+
+Optional arguments include:
+* `--confidence`: This is the confidence threshold. It is set to 0.2 by default.
+* `--movidius`: This is a boolean variable to determine if the Movidius NCS2 will be used. It is set to zero by default.
 
 ### Using RealVNC with the robot along with the Intel NCS2
 

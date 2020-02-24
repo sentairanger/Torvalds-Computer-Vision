@@ -1,5 +1,5 @@
 # USAGE
-# python openvino_real_time_object_detection.py --prototxt MobileNetSSD_deploy.prototxt --model MobileNetSSD_deploy.caffemodel
+# python openvino_real_time_object_detection_robot.py --prototxt MobileNetSSD_deploy.prototxt --model MobileNetSSD_deploy.caffemodel
 
 # import the necessary packages
 from imutils.video import VideoStream
@@ -12,16 +12,16 @@ import cv2
 from gpiozero import LED, CamJamKitRobot
 
 # construct the argument parse and parse the arguments
-ap = argparse.ArgumentParser()
-ap.add_argument("-p", "--prototxt", required=True,
+parser = argparse.ArgumentParser()
+parser.add_argument("-p", "--prototxt", required=True,
     help="path to Caffe 'deploy' prototxt file")
-ap.add_argument("-m", "--model", required=True,
+parser.add_argument("-m", "--model", required=True,
     help="path to Caffe pre-trained model")
-ap.add_argument("-c", "--confidence", type=float, default=0.2,
+parser.add_argument("-c", "--confidence", type=float, default=0.2,
     help="minimum probability to filter weak detections")
-ap.add_argument("-u", "--movidius", type=bool, default=0,
+parser.add_argument("-u", "--movidius", type=bool, default=0,
     help="boolean indicating if the Movidius should be used")
-args = vars(ap.parse_args())
+args = vars(parser.parse_args())
 
 # initialize the list of class labels MobileNet SSD was trained to
 # detect, then generate a set of bounding box colors for each class
@@ -96,23 +96,18 @@ while True:
                 COLORS[idx], 2)
             y = startY - 15 if startY - 15 > 15 else startY + 15
             cv2.putText(frame, label, (startX, y), cv2.FONT_HERSHEY_SIMPLEX, 0.5, COLORS[idx], 2)
-            #If the ledOn variable is true and the classes chosen is a person flash the led
+            #If the robotOn variable is true and the classes chosen is a person move the robot forward
             if (CLASSES[15]) and not robotOn:
-            # extract the index of the class label from the
-            # `detections`, then compute the (x, y)-coordinates of
-            # the bounding box for the object
                 devastator_robot.forward()
                 robotOn = True
                 
 
 
-            # extract the index of the class label from the
-            # `detections`, then compute the (x, y)-coordinates of
-            # the bounding box for the object
+            
             
 
 
-        #If the class does not equal person and the variable is false turn off the LED
+        #If the class does not equal person and the variable is false turn off the robot
     else:
         devastator_robot.stop()
         robotOn = False

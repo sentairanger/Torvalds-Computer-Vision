@@ -58,6 +58,8 @@ Optional arguments include:
 * `--confidence`: This is the confidence threshold. It is set to 0.2 by default.
 * `--movidius`: This is a boolean variable to determine if the Movidius NCS2 will be used. It is set to zero by default.
 
+![Demo with NCS2](https://media.giphy.com/media/PiQqUq8LnXZvkRtDn7/giphy.gif)
+
 ### Using RealVNC with the robot along with the Intel NCS2
 
 When using the NCS2 it is possible to run this untethered from an HDMI cable and that should be the preferred solution. To do this, go into the Raspberry Pi Configuration Menu or type `sudo raspi-config` and make sure to enable VNC in the interfaces menu. Then, go to another device (such as your smart phone) and install RealVNC. Once installed, look at your Pi's IP address using `ifconfig` and then use that address to log in remotely. This allows you to see what the robot is seeing, especially if you are doing object detection. And this is also helpful if you are setting up that security robot so you can see what is going on. 

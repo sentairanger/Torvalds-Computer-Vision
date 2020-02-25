@@ -68,3 +68,4 @@ When using the NCS2 it is possible to run this untethered from an HDMI cable and
 
 * Danny Staple, whose articles were very helpful. You can go to https://orionrobots.co.uk/ for more information on his projects.
 * The Raspberry Pi Organization, specifically the MagiPi staff for having Danny post on their magazine.
+* Adrian from Pyimagesearch who made it possible for me to learn computer Vision, install Openvino and also for having such amazing tutorials that helped my project move along.

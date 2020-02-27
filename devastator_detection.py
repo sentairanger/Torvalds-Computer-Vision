@@ -3,6 +3,9 @@ from gpiozero import CamJamKitRobot #if you don't have this board switch this wi
 from contours import get_saturated_colors, setup_camera #import from the contours program
 
 #Setup the robot, and camera function
+#These are the instructions if you don't own the CamJam Edukit 3
+#Let's say you use the pins 27 and 17 for left and 24 and 23 for right. Then alter it as such:
+#robot = Robot(left=(27, 17), right=(24,23))
 devastator_robot = CamJamKitRobot()
 camera, capture_buffer = setup_camera()
 

@@ -130,7 +130,7 @@ while True:
     key = cv2.waitKey(1) & 0xFF
 
     # if the `q` key was pressed, break from the loop
-    # This can use any key you want such as s or t or q
+    # This can use any key you want such as s or t or x
     if key == ord("q"):
         break
 

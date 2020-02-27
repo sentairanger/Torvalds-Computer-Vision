@@ -25,7 +25,7 @@ args = vars(parser.parse_args())
 
 # initialize the list of class labels MobileNet SSD was trained to
 # detect, then generate a set of bounding box colors for each class
-# An ignore class can be added to ignore classes like birds or boats
+# An ignore class can be added to ignore classes like boats and bottles to only track living things like people or cats
 CLASSES = ["background", "aeroplane", "bicycle", "bird", "boat",
     "bottle", "bus", "car", "cat", "chair", "cow", "diningtable",
     "dog", "horse", "motorbike", "person", "pottedplant", "sheep",
@@ -48,6 +48,7 @@ for x in range(1, 5):
         sleep(0.5)
 
 # load our serialized model from disk
+# This will load both the prototxt and the model
 print("[INFO] loading model...")
 net = cv2.dnn.readNetFromCaffe(args["prototxt"], args["model"])
 
@@ -66,6 +67,7 @@ fps = FPS().start()
 while True:
     # grab the frame from the threaded video stream and resize it
     # to have a maximum width of 400 pixels
+    # You can alter this to whatever width you want such as 500 or 600 depending on your preferences
     frame = vs.read()
     frame = imutils.resize(frame, width=400)
 
@@ -95,6 +97,10 @@ while True:
             (startX, startY, endX, endY) = box.astype("int")
 
             # draw the prediction on the frame
+            # The confidence * 100 number will be formatted as a percentage such as 52.7%
+            # A rectangle will be drawn with coordinates startX, startY, endX, endY
+            # Then text will be added to the top of the rectangle using Hershey Simplex Font
+            #y will equal startY - 15 only if  startY - 15 is less than 15, otherwise it will equal startY + 15
             label = "{}: {:.2f}%".format(CLASSES[idx],
                 confidence * 100)
             cv2.rectangle(frame, (startX, startY), (endX, endY),
@@ -112,7 +118,7 @@ while True:
             
 
 
-        #If the class does not equal person and the variable is false turn off the robot
+        #If the class does not equal person and the variable is false the robot will stop 
     else:
         devastator_robot.stop()
         robotOn = False
@@ -124,6 +130,7 @@ while True:
     key = cv2.waitKey(1) & 0xFF
 
     # if the `q` key was pressed, break from the loop
+    # This can use any key you want such as s or t or q
     if key == ord("q"):
         break
 
@@ -131,10 +138,12 @@ while True:
     fps.update()
 
 # stop the timer and display FPS information
+# The first one will show elapsed time and the second shows approximate FPS. 
 fps.stop()
 print("[INFO] elasped time: {:.2f}".format(fps.elapsed()))
 print("[INFO] approx. FPS: {:.2f}".format(fps.fps()))
 
 # do a bit of cleanup
+# Windows will be closed down and video streaming will stop
 cv2.destroyAllWindows()
 vs.stop()

@@ -8,8 +8,8 @@ import numpy as np
 import argparse
 import imutils
 from time import sleep
-import cv2
-from gpiozero import LED, CamJamKitRobot
+import cv2 
+from gpiozero import LED, CamJamKitRobot #change this to Robot if you are not using CamJamKitRobot
 
 # construct the argument parse and parse the arguments
 parser = argparse.ArgumentParser()
@@ -25,6 +25,7 @@ args = vars(parser.parse_args())
 
 # initialize the list of class labels MobileNet SSD was trained to
 # detect, then generate a set of bounding box colors for each class
+# An ignore class can be added to ignore classes like birds or boats
 CLASSES = ["background", "aeroplane", "bicycle", "bird", "boat",
     "bottle", "bus", "car", "cat", "chair", "cow", "diningtable",
     "dog", "horse", "motorbike", "person", "pottedplant", "sheep",
@@ -32,6 +33,9 @@ CLASSES = ["background", "aeroplane", "bicycle", "bird", "boat",
 COLORS = np.random.uniform(0, 255, size=(len(CLASSES), 3))
 
 #Setup the robot, LED and its boolean value
+#If you plan to use the Robot module as opposed to the CamJamKitRobot module alter the code as such:
+#Let's say you use the pins 27 and 17 for left and 24 and 23 for right. Then alter it as such:
+#robot = Robot(left=(27, 17), right=(24,23))
 devastator_eye = LED(25)
 devastator_robot = CamJamKitRobot()
 robotOn = False
@@ -52,6 +56,7 @@ net.setPreferableTarget(cv2.dnn.DNN_TARGET_MYRIAD)
 
 # initialize the video stream, allow the cammera sensor to warmup,
 # and initialize the FPS counter
+# Change usePiCamera=True to src=0 only if you plan to use a Webcam instead
 print("[INFO] starting video stream...")
 vs = VideoStream(usePiCamera=True).start()
 sleep(2.0)

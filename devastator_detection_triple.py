@@ -1,6 +1,6 @@
-from gpiozero import CamJamKitRobot
+#import libraries
+from gpiozero import CamJamKitRobot #import Robot only if you use a different board
 from contours import get_saturated_colors, setup_camera #import from the contours script
-from time import sleep
 
 #setup the robot as well as the camera function
 devastator_robot = CamJamKitRobot()
@@ -21,5 +21,5 @@ for raw in camera.capture_continuous(capture_buffer, format="bgr"):
         print("red")
         devastator_robot.right()
     else:
-        devastator_robot.stop()
+        devastator_robot.stop() #It stops if it sees no other color. 
     capture_buffer.truncate(0)

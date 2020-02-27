@@ -22,7 +22,7 @@ def setup_camera():
   camera.resolution = (128, 128)
   #camera.rotation = 180 #Set this variable only if your camera is upside down
   capture_buffer = PiRBGArray(camera, size=(128, 128))
-  camera.start_preview()
+  camera.start_preview() #This starts the preview of the camera
   sleep(2)
   return camera, capture_buffer
 
@@ -31,11 +31,13 @@ def get_saturated_colors(image):
   hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV) #This converts a BGR format to an HSV format 
   #Mask for vivid colors
   cnts = cv2.findContours(masked.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-  contours = imutils.grab_contours(cnts)
+  contours = imutils.grab_contours(cnts) #Find the contours from cnts
   contours = sorted(contours, key=cv2.contourArea, reverse=True)
-  color = [0, 0, 0]
+  color = [0, 0, 0] 
   m = cv2.moments(contours[0])
-  if m["m00"] > 0:
+  if m["m00"] > 0: 
+     #cx is the average of taking the sum of x-coordinates m10 and dividing them by the count m00.
+     #cy is the average of taking the sum of y-coordinates m01 and dividing them by the count m00.
     cx = int(m["m10"] / m["m00"])
     cy = int(m["m01"] / m["m00"])
     color = hsv[cy, cx]
@@ -44,11 +46,11 @@ def get_saturated_colors(image):
 #The camera will take a contour, original and masked picture and save them as original.png, masked.png and with_contours.jpg
 if __name__ == '__main__':
   camera, capture_buffer = setup_camera()
-  camera.capture(capture_buffer, format="bgr")
+  camera.capture(capture_buffer, format="bgr") #This captures the image in bgr format
   image = capture_buffer.array
-  masked_contours, found_color = get_saturated_colors(image)
+  masked_contours, found_color = get_saturated_colors(image) 
   cv2.imwrite('original.jpg' , image)
   cv2.imwrite('masked.jpg', masked)
-  cv2.drawContours(image, contours[:1], -1, (0, 255, 0), 1)
+  cv2.drawContours(image, contours[:1], -1, (0, 255, 0), 1) #This draws the contour with a green line (0, 255, 0) with width 1
   cv2.imwrite('with_contours.png', image)
   print(found_color)

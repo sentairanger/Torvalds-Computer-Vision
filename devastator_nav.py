@@ -1,8 +1,12 @@
 #This is the code used for the robot to move based on the color it sees using the Pi Camera
-from gpiozero import CamJamKitRobot
-from contours import setup_camera, get_saturated_colors
+#import needed libraries
+from gpiozero import CamJamKitRobot #Change this to Robot if you do not have the Cam Jam Edukit 3 robotics kit
+from contours import setup_camera, get_saturated_colors #import from the contours program 
 
 #Setup the camjamkit robot. The pins are already defined by the board
+#The following instructions are for those who do not use the Cam Jam Edukit 3 robotics kit
+#Let's say you use the pins 27 and 17 for left and 24 and 23 for right. Then alter it as such:
+#robot = Robot(left=(27, 17), right=(24,23))
 devastator_robot = CamJamKitRobot()
 camera, capture_buffer = setup_camera()
 

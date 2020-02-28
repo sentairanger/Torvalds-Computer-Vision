@@ -59,6 +59,8 @@ Optional arguments include:
 * `--confidence`: This is the confidence threshold. It is set to 0.2 by default.
 * `--movidius`: This is a boolean variable to determine if the Movidius NCS2 will be used. It is set to zero by default.
 
+Note: Openvino on raspbian does not have the model optimizer. So follow the instructions on this link https://docs.openvinotoolkit.org/latest/_docs_install_guides_installing_openvino_raspbian.html to get things started. Look under the Workflow For Raspberry Pi section to read more about this. What this means is you need to have Openvino installed on another machine. For example if you run Openvino on Ubuntu then all you do is download the needed files from there and then transfer them to the Pi. I added this caveat in case you wonder why the model optimizer is not included under the Raspbian version of Openvino. 
+
 ![Demo with NCS2](https://media.giphy.com/media/PiQqUq8LnXZvkRtDn7/giphy.gif)
 
 ### Using RealVNC with the robot along with the Intel NCS2

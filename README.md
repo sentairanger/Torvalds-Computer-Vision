@@ -2,7 +2,7 @@
 
 ## Overview of the project
 
-This was originally a project I did based on the tutorial by Danny Staple in the Magpi magazine issue 90. Here is a link for more information. https://magpi.raspberrypi.org/articles/add-navigation-to-a-low-cost-robot . However I must make this clear that I decided to change things here as well as correcting some of the errors in his code. Yes there were a few errors I had to correct and I also used different processses to get things running. This later evolved into an object detection robot after successfully installing Openvino on my Pi 3B+ and purchasing the Intel NCS2. So what this project shows is how you can use deep learning and AI to add more functionality to your projects. Not to mention this shows how my project evolved with the skills I obtained in the Edge AI fundamentals course thanks to Udacity.
+This was originally a project I did based on the tutorial by Danny Staple in the Magpi magazine issue 90. [Here!](https://magpi.raspberrypi.org/articles/add-navigation-to-a-low-cost-robot) is a link for more information.  . However I must make this clear that I decided to change things here as well as correcting some of the errors in his code. Yes there were a few errors I had to correct and I also used different processses to get things running. This later evolved into an object detection robot after successfully installing Openvino on my Pi 3B+ and purchasing the Intel NCS2. So what this project shows is how you can use deep learning and AI to add more functionality to your projects. Not to mention this shows how my project evolved with the skills I obtained in the Edge AI fundamentals course thanks to Udacity.
 
 ### Needed Items
 

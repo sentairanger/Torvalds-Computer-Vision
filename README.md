@@ -25,7 +25,7 @@ Note: the Pi Camera must be enabled using `sudo raspi-config` or the Raspberry P
 
 ### Video Demo
 
-I added a video demo to the repo, but you will have to click on it to see it due to its file size. Update, I added another video and a GIF of the robot running with the NCS2.
+I added a video demo to the repo, but you will have to click on it to see it due to its file size. I added another video and a GIF of the robot running with the NCS2.
 
 ### Note on running this with other hardware
 
@@ -62,6 +62,9 @@ Optional arguments include:
 I have included the `.caffemodel` and `.prototxt` files to make things easier for future users. 
 
 ![Demo with NCS2](https://media.giphy.com/media/PiQqUq8LnXZvkRtDn7/giphy.gif)
+
+### Optional: Adding Openvino to Your bashrc File
+Optionally, you can have Openvino run when you first open your terminal on the Pi. This can also be added on your Linux Machine. To do this type `vi ~/.bashrc` to edit the bashrc file using Vim or `nano ~/.bashrc` to use the nano editor instead. Go to the very end of the file and add `source ~/openvino/bin/setupvars.sh`. Save the file using `:wq` on Vim or if you are using nano type `Ctrl+X` then type `y` to confirm. Then type `source ~/.bashrc` and Openvino will be initialized. 
 
 ### Using RealVNC with the robot along with the Intel NCS2
 

@@ -6,11 +6,11 @@ This was originally a project I did based on the tutorial by Danny Staple in the
 
 ### Needed Items
 
-To get things started I had my Raspberry Pi Robot which uses the Devastator Tank Mobile Platform from DFRobot. I had a Pi Zero W as well as a generic USB power supply, 6 AA batteries and two HDD LEDs and LED bezels for eyes. For the motor controller I used the one included with the CamJam Edukit 3. I had a Pi Camera mounted on a 3D printed mount. To get things started I had to install OpenCV using the instructions from the link above. 
+To get things started I had my Raspberry Pi Robot which uses the Devastator Tank Mobile Platform from DFRobot. I had a Pi Zero W as well as a generic USB power supply, 6 AA batteries and two HDD LEDs and LED bezels for eyes. For the motor controller I used the one included with the CamJam Edukit 3. I had a Pi Camera mounted on a 3D printed mount. To get things started I had to install OpenCV using the instructions from the link above. However, that did change with the installation of Openvino on the Pi.
 
 ### Getting everything running
 
-Note: the Pi Camera must be enabled using `sudo raspi-config` or the Raspberry Pi Configuration menu. After everything was set up I connected a monitor and bluetooth keyboard/mouse controller to get the code running. Every time I ran any code I had to invoke the `export LD_PRELOAD=/usr/lib/arm-linux_gnueabihf/libatomic.so` variable because otherwise it would not run. Now if you compiled OpenCV this would not be needed. Also note that if you are going to install the headless version of OpenCV make sure you only install it on CLI environment not a GUI one. I did that and it kept giving me issues until I uninstalled and replaced it with the correct version. So here is what each piece of code does and how to run it. I will add more to this as time goes by:
+Note: the Pi Camera must be enabled using `sudo raspi-config` or go to Preferences > Raspberry Pi Configuration > Interfaces. Under the Interfaces menu, click on Enable on the Camera section. After everything was set up I connected a monitor and bluetooth keyboard/mouse controller to get the code running. Every time I ran any code I had to invoke the `export LD_PRELOAD=/usr/lib/arm-linux_gnueabihf/libatomic.so` variable because otherwise it would not run. Now if you compiled OpenCV this would not be needed. Also note that if you are going to install the headless version of OpenCV make sure you only install it on CLI environment not a GUI one. I did that and it kept giving me issues until I uninstalled and replaced it with the correct version. So here is what each piece of code does and how to run it. I will add more to this as time goes by:
 
 * `contours.py` takes three images of what it sees and outputs them as `with-contours.jpg`, `masked.jpg` and `original.jpg`. The masked image is in black and white and masks the color that it sees. The contours image is the image that draws a green line on the color itself. The `contours_big.jpg` and `masked_big.jpg` images are examples you can reference. To run it, type `python3 contours.py` or `python contours.py ` if you are running a virtual environment. If you did not compile OpenCV and you used Danny Staple's instructions from the link provided please export the LD_PRELOAD variable first.
 
@@ -29,7 +29,7 @@ I added a video demo to the repo, but you will have to click on it to see it due
 
 ### Note on running this with other hardware
 
-If you are running this with any other hardware, make sure you adjust accordingly. Example, if you use an L298N as opposed to the motor controller from CamJam Edukit 3, make sure you change the import to `from gpiozero import Robot` and then set the Robot equal to `Robot(left=(pin1, pin2), right=(pin3, pin4))` where pin1 through pin4 are the pin numbers you choose. If your controller board as its own python library please make reference of it. Otherwise, just use the Robot module from gpiozero. Also if you prefer to use another Pi make sure to give it proper power. If you plan to use a UBEC, be sure to connect things properly otherwise it will not work. 
+If you are running this with any other hardware, make sure you adjust accordingly. Example, if you use an L298N as opposed to the motor controller from CamJam Edukit 3, make sure you change the import to `from gpiozero import Robot` and then set the Robot equal to `Robot(left=(pin1, pin2), right=(pin3, pin4))` where pin1 through pin4 are the pin numbers you choose. If your controller board as its own python library please make reference of it. Otherwise, just use the Robot module from gpiozero. Also if you prefer to use another Pi make sure to give it proper power. If you plan to use a UBEC (Universal Battery Eliminator Circuit), be sure to connect things properly otherwise it will not work. 
 
 ### Expanding to other colors
 Let me give you an example on how to modify the code to use other colors besides red, blue and yellow. Let's say I want to add green and I want the robot to move right and then left. I would add these lines after line 22 of `devastator_detection_triple.py`. 
@@ -46,7 +46,7 @@ This can also be done in `devastator_nav.py` and `devastator_detection.py`. To e
 
 ### Using an Intel NCS2 with the robot
 
-I followed the [Pyimagesearch](https://www.pyimagesearch.com/2019/04/08/openvino-opencv-and-movidius-ncs-on-the-raspberry-pi/) guide to install Openvino on my Pi 3B+ and also purchased the Intel Neural compute stick 2 for this project.  was the link I used. I realized after my computer Vision robot test that I could evolve my robot to an object detection robot using the NCS2.
+I followed the [Pyimagesearch](https://www.pyimagesearch.com/2019/04/08/openvino-opencv-and-movidius-ncs-on-the-raspberry-pi/) guide to install Openvino on my Pi 3B+ and also purchased the Intel Neural compute stick 2 for this project. I realized after my computer Vision robot test that I could evolve my robot to an object detection robot using the NCS2.
 
 I successfully got the NCS2 running with my robot and now I can talk about how I got it to work. Unlike before, I used the Pi 3B+ as compiling Openvino and OpenCV took less time and I did not want to wait so long to compile it with the Pi Zero W. I did ask and yes you can install Openvino on the Pi Zero W despite it being an ARMv6 board. I also used a 5V 3A USB power bank to run the robot. I connected the CamJam Edukit 3 motor controller board like before and I also attached the Pi Camera in the MIPI CSI port. I also mounted it on the same 3D printed camera mount. Then, I connected the HDD LED eyes. One LED connects to ground and the 3.3V pin. The second pin connects to Pin 25 and ground as well. You can use any LED you want, and any GPIO pin you want as long as you modify the pin numbering. The program uses MobileNet SSD and Caffe for object detection. And through several classes, if it sees the person class, the robot moves forward. However, this will be improved as object detection is very sensitive here and did cause my robot to stop and go and stop and go. So there will be improvements to add better accuracy. Before running the code I had to make sure to source the Openvino environment by running `source ~/openvino/bin/setupvars.sh`. Since I had installed `virtualenv` via `$ sudo pip install virtualenv` I created my environment using the command `$ virtualenv -p python3 venv` which creates a python3 environment named venv. I then ran `source venv/bin/activate` to turn on the environment. Now, to run the code you must type the following `$ python openvino_real_time_object_detection_robot.py --prototxt MobileNetSSD_deploy.prototxt --model MobileNetSSD_deploy.caffemodel`. If you are not in a virtual environment change python to python3. This can be modified to have the robot move left if it sees a cat and right if it sees a chair. The result can be seen in the GIF and the video demo listed on the Repo.
 
@@ -61,6 +61,18 @@ Optional arguments include:
 
 I have included the `.caffemodel` and `.prototxt` files to make things easier for future users. 
 
+To run this on your own, make sure you have your own robot built and you can modify it however you want. The principle functionality will stay the same. Make sure that you install OpenVino on whatever Pi you use and that you have the Intel NCS2 as well. Also, make sure you have a python environment to protect your main system python. So here are the steps to take:
+
+* Assemble robot and add Intel NC2 to a USB port on the Pi
+* Make sure that Raspbian is installed on your Pi
+* Optional, but recommended. Go to Menu > Preferences > Raspberry Pi Configuration > Interfaces > VNC and click on enabled. Make sure you have Real VNC installed on another machine. Click [here] https://www.realvnc.com/en/connect/download/viewer/
+to learn more about installing VNC viewer on your machine. 
+* Download this code via `git clone`
+* Use the link from Pyimagesearch I have provided to install the prerequisites and to install OpenVino
+* Optional, but recommended: install virtualenv via `sudo pip install virtualenv`. Set up your environment by typing `virtualenv -p python3 venv`. This sets up a python3 environment named venv. Then type `source venv/bin/activate` to activate the environment.
+* Activate the OpenVino environment by typing `source ~openvino/bin/setupvars.sh` or `source /opt/intel/openvino/bin/setupvars.sh` depending on where you installed OpenVino.
+* cd into the directory where you cloned the code.
+* Type `python openvino_real_time_object_detection_robot.py --prototxt MobileNetSSD_deploy.prototxt --model MobileNetSSD_deploy.caffemodel` and it should run. 
 ![Demo with NCS2](https://media.giphy.com/media/PiQqUq8LnXZvkRtDn7/giphy.gif)
 
 ### Optional: Adding Openvino to Your bashrc File
@@ -68,7 +80,7 @@ Optionally, you can have Openvino run when you first open your terminal on the P
 
 ### Using RealVNC with the robot along with the Intel NCS2
 
-When using the NCS2 it is possible to run this untethered from an HDMI cable and that should be the preferred solution. To do this, go into the Raspberry Pi Configuration Menu or type `sudo raspi-config` and make sure to enable VNC in the interfaces menu. Then, go to another device (such as your smart phone) and install RealVNC. Once installed, look at your Pi's IP address using `ifconfig` and then use that address to log in remotely. This allows you to see what the robot is seeing, especially if you are doing object detection. And this is also helpful if you are setting up that security robot so you can see what is going on. 
+When using the NCS2 it is possible to run this untethered from an HDMI cable and that should be the preferred solution. To do this, go into Menu > Preferences > Raspberry Pi Configuration > Interfaces > VNC > Enable or type `sudo raspi-config` and make sure to enable VNC in the interfaces menu. Then, go to another device (such as your smart phone) and install VNC Viewer via this [link] https://www.realvnc.com/en/connect/download/viewer/. Once installed, look at your Pi's IP address using `ifconfig` and then use that address to log in remotely. This allows you to see what the robot is seeing, especially if you are doing object detection. And this is also helpful if you are setting up that security robot so you can see what is going on. 
 
 ### Acknowledgements
 

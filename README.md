@@ -73,6 +73,7 @@ to learn more about installing VNC viewer on your machine.
 * Activate the OpenVino environment by typing `source ~openvino/bin/setupvars.sh` or `source /opt/intel/openvino/bin/setupvars.sh` depending on where you installed OpenVino.
 * `cd` into the directory where you cloned the code by typing `cd Torvalds-Computer-Vision`
 * Type `python openvino_real_time_object_detection_robot.py --prototxt MobileNetSSD_deploy.prototxt --model MobileNetSSD_deploy.caffemodel` and it should run. 
+
 ![Demo with NCS2](https://media.giphy.com/media/PiQqUq8LnXZvkRtDn7/giphy.gif)
 
 ### Optional: Adding Openvino to Your bashrc File

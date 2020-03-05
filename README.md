@@ -65,7 +65,7 @@ To run this on your own, make sure you have your own robot built and you can mod
 
 * Assemble robot and add Intel NC2 to a USB port on the Pi
 * Make sure that Raspbian is installed on your Pi
-* Optional, but recommended. Go to Menu > Preferences > Raspberry Pi Configuration > Interfaces > VNC and click on enabled. Make sure you have Real VNC installed on another machine. Click [here] https://www.realvnc.com/en/connect/download/viewer/
+* Optional, but recommended. Go to Menu > Preferences > Raspberry Pi Configuration > Interfaces > VNC and click on enabled. Make sure you have Real VNC installed on another machine. Click [here](https://www.realvnc.com/en/connect/download/viewer/)
 to learn more about installing VNC viewer on your machine. 
 * Download this code via `git clone`
 * Use the link from Pyimagesearch I have provided to install the prerequisites and to install OpenVino
@@ -80,7 +80,7 @@ Optionally, you can have Openvino run when you first open your terminal on the P
 
 ### Using RealVNC with the robot along with the Intel NCS2
 
-When using the NCS2 it is possible to run this untethered from an HDMI cable and that should be the preferred solution. To do this, go into Menu > Preferences > Raspberry Pi Configuration > Interfaces > VNC > Enable or type `sudo raspi-config` and make sure to enable VNC in the interfaces menu. Then, go to another device (such as your smart phone) and install VNC Viewer via this [link] https://www.realvnc.com/en/connect/download/viewer/. Once installed, look at your Pi's IP address using `ifconfig` and then use that address to log in remotely. This allows you to see what the robot is seeing, especially if you are doing object detection. And this is also helpful if you are setting up that security robot so you can see what is going on. 
+When using the NCS2 it is possible to run this untethered from an HDMI cable and that should be the preferred solution. To do this, go into Menu > Preferences > Raspberry Pi Configuration > Interfaces > VNC > Enable or type `sudo raspi-config` and make sure to enable VNC in the interfaces menu. Then, go to another device (such as your smart phone) and install VNC Viewer via this [link](https://www.realvnc.com/en/connect/download/viewer/). Once installed, look at your Pi's IP address using `ifconfig` and then use that address to log in remotely. This allows you to see what the robot is seeing, especially if you are doing object detection. And this is also helpful if you are setting up that security robot so you can see what is going on. 
 
 ### Acknowledgements
 

@@ -1,6 +1,3 @@
-# USAGE
-# python openvino_real_time_object_detection_robot.py --prototxt MobileNetSSD_deploy.prototxt --model MobileNetSSD_deploy.caffemodel
-
 # import the necessary packages
 from imutils.video import VideoStream
 from imutils.video import FPS
@@ -12,6 +9,7 @@ import cv2
 from gpiozero import LED, CamJamKitRobot #change this to Robot if you are not using CamJamKitRobot
 
 # construct the argument parse and parse the arguments
+# The -p and -m arguments are required as the robot needs the prototxt file and the pretrained model
 parser = argparse.ArgumentParser()
 parser.add_argument("-p", "--prototxt", required=True,
     help="path to Caffe 'deploy' prototxt file")
@@ -32,15 +30,17 @@ CLASSES = ["background", "aeroplane", "bicycle", "bird", "boat",
     "sofa", "train", "tvmonitor"]
 COLORS = np.random.uniform(0, 255, size=(len(CLASSES), 3))
 
-#Setup the robot, LED and its boolean value
+#Setup the robot, LED and its boolean value which should be set to false first.
 #If you plan to use the Robot module as opposed to the CamJamKitRobot module alter the code as such:
 #Let's say you use the pins 27 and 17 for left and 24 and 23 for right. Then alter it as such:
 #robot = Robot(left=(27, 17), right=(24,23))
+#Also, you can choose another pin number for the LED if you wish. Also, the pin numbering is in BCM format so be sure to take that into consideration.
 devastator_eye = LED(25)
 devastator_robot = CamJamKitRobot()
 robotOn = False
 # Blink the LED 4 times to initiate code
-
+#You can omit this but it helps to have this so you know that it's working properly
+#Also, it looks cool if you use the LEDs as the eyes for your robot.
 for x in range(1, 5):
         devastator_eye.off()
         sleep(0.5)
@@ -48,16 +48,17 @@ for x in range(1, 5):
         sleep(0.5)
 
 # load our serialized model from disk
-# This will load both the prototxt and the model
+# This will reference both the model and prototxt file
 print("[INFO] loading model...")
 net = cv2.dnn.readNetFromCaffe(args["prototxt"], args["model"])
 
-# specify the target device as the Myriad processor on the NCS
+# specify the target device as the Myriad processor on the NCS2
 net.setPreferableTarget(cv2.dnn.DNN_TARGET_MYRIAD)
 
 # initialize the video stream, allow the cammera sensor to warmup,
 # and initialize the FPS counter
 # Change usePiCamera=True to src=0 only if you plan to use a Webcam instead
+#NOTE: If you use a webcam be sure that it has a mount for it. You can use electrical tape or even double sided tape.
 print("[INFO] starting video stream...")
 vs = VideoStream(usePiCamera=True).start()
 sleep(2.0)
@@ -99,7 +100,7 @@ while True:
             # draw the prediction on the frame
             # The confidence * 100 number will be formatted as a percentage such as 52.7%
             # A rectangle will be drawn with coordinates startX, startY, endX, endY
-            # Then text will be added to the top of the rectangle using Hershey Simplex Font
+            # Then text will be added to the top of the rectangle using Hershey Simplex Font. You can use any other font you want
             #y will equal startY - 15 only if  startY - 15 is less than 15, otherwise it will equal startY + 15
             label = "{}: {:.2f}%".format(CLASSES[idx],
                 confidence * 100)
@@ -147,3 +148,4 @@ print("[INFO] approx. FPS: {:.2f}".format(fps.fps()))
 # Windows will be closed down and video streaming will stop
 cv2.destroyAllWindows()
 vs.stop()
+devastator_robot.stop() #Add this in case the robot is still running. This will turn off the motors gracefully.

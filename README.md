@@ -93,3 +93,5 @@ When using the NCS2 it is possible to run this untethered from an HDMI cable and
 #### Update
 
 This project won the Project Showcase hosted by Udacity for the Intel Edge AI Scholarship Challenge.
+
+![Udacity Badge](https://github.com/sentairanger/Torvalds-Computer-Vision/blob/master/unnamed.png)

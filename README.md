@@ -99,4 +99,4 @@ This project won the Project Showcase hosted by Udacity for the Intel Edge AI Sc
 
 ### 2024 update
 
-I have tested this project now using 32 Pi OS Bullseye. I had to follow this [issue](https://github.com/openvinotoolkit/openvino/issues/8789) to get OpenVINO to compile. Note that this project will not work later this year as Intel has stopped supporting the NCS2. If there are any more updates I will update the README as time goes by.
+I have tested this project now using 32 Pi OS Bullseye. I had to follow this [issue](https://github.com/openvinotoolkit/openvino/issues/8789) to get OpenVINO to compile. Note that this project will not work later this year as Intel has stopped supporting the NCS2. Also Legacy Camera mode needs to be update on Raspberry Pi OS. First go to the terminal and type `sudo raspi-config` and then go to `Interfaces` and then enable Legacy Camera mode. This only works on 32 bit Pi OS. This will be depreciated in the future. If there are any more updates I will update the README as time goes by.

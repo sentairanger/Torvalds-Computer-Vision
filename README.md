@@ -95,3 +95,8 @@ When using the NCS2 it is possible to run this untethered from an HDMI cable and
 This project won the Project Showcase hosted by Udacity for the Intel Edge AI Scholarship Challenge.
 
 ![Udacity Badge](https://github.com/sentairanger/Torvalds-Computer-Vision/blob/master/unnamed.png)
+
+
+### 2024 update
+
+I have tested this project now using 32 Pi OS Bullseye. I had to follow this [issue](https://github.com/openvinotoolkit/openvino/issues/8789) to get OpenVINO to compile. Note that this project will not work later this year as Intel has stopped supporting the NCS2. If there are any more updates I will update the README as time goes by.
